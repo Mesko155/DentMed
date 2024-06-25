@@ -1,2 +1,2 @@
 # DentMed
-Consumer Analytics &amp; Big Data; cluster analysis assignment
+Consumer Analytics &amp; Big Data; analysis assignment
