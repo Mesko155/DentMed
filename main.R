@@ -127,14 +127,16 @@ data <-
 # removed rows with values outside of percentage range (n= 2300 > 2272)
 
 
-# 2.5 CHECK LAST REMAINING (p_sales, p_length, p_referrals)
+# 2.5 CHECK LAST REMAINING VARIABLES (p_sales, p_length, p_referrals)
 describe(data$p_sales) #sales freq (yearly number of orders from HERO)
 describe(data$p_length) #length of relationship with HERO
+
 # there are observations with yearly number of order of ZERO
 # but all have relationship for at least 4 years
 # assumption: p_sales tells us the orders for the past year
 # THUS
 # those with zero could be classified as LOST CUSTOMERS (or ONE TIMERS)
+# since they have established relationship with us
 
 describe(data$p_referrals)
 # seems ok
