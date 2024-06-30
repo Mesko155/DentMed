@@ -52,14 +52,14 @@ data <-
 
 summary(data)
 
-#TODO: outliers, univariate dist check
+#TODO: outliers
 #TODO: make proportion of times spent
 
 
 # 2.0 CLEAN DATA ---------------------------------------------------------------
 
 
-# 2.1 NA CHECK
+## 2.1 NA CHECK ----------------------------------------------------------------
 any(is.na(data))
 
 data %>%
@@ -69,7 +69,7 @@ data <- na.omit(data)
 # removed rows containing at least 1 NA (n= 2330 > 2320)
 # all happened to be full rows of NA
 
-# 2.2 TIME check
+## 2.2 TIME CHECK --------------------------------------------------------------
 any(data$t_hero > data$t_total | data$t_villains > data$t_total) # none faulty
 any((data$t_hero + data$t_villains) > data$t_total) #none faulty
 #checked if either (or together) are more than total
@@ -79,7 +79,7 @@ range(data$t_villains)
 range(data$t_total)
 
 
-# 2.3 LIKERTS RANGE CHECK
+## 2.3 LIKERTS RANGE CHECK -----------------------------------------------------
 data %>%
   select(c(id, n_image:tr_peers)) %>%
   filter(
@@ -101,7 +101,7 @@ data <-
 # removed rows containing values outside of likert range (n= 2320 > 2300)
 
 
-# 2.4 PERCENT AND INDEX CHECK
+## 2.4 PERCENT AND INDEX CHECK -------------------------------------------------
 range(data$p_percent) # 5-101 some must be faulty
 range(data$p_historic) # 8-65 should be ok
 
@@ -127,7 +127,7 @@ data <-
 # removed rows with values outside of percentage range (n= 2300 > 2272)
 
 
-# 2.5 CHECK LAST REMAINING VARIABLES (p_sales, p_length, p_referrals)
+## 2.5 CHECK LAST REMAINING VARIABLES (p_sales, p_length, p_referrals) ---------
 describe(data$p_sales) #sales freq (yearly number of orders from HERO)
 describe(data$p_length) #length of relationship with HERO
 
@@ -142,30 +142,116 @@ describe(data$p_referrals)
 # seems ok
 
 
-# 3.0 UNIVARIATE EDA -----------------------------------------------------------
+# 3.0 EDA ----------------------------------------------------------------------
 
+## 3.1 TRADE SHOW --------------------------------------------------------------
 data %>%
   select(starts_with("t_")) %>%
   gt_plt_summary()
+# worrying numbers, most spend more at competition
 
+describe(data$t_hero)
+describe(data$t_villains)
+
+data %>%
+  select(t_villains) %>%
+  ggplot() +
+  geom_histogram(aes(t_villains), bins = 70)
+
+
+## 3.2 PAST PURCHASE BEH -------------------------------------------------------
 data %>%
   select(starts_with("p_")) %>%
   gt_plt_summary()
 
 data %>%
+  select(starts_with("p_")) %>%
+  describe()
+
+# TODO: needs detailed look
+# p_percent (3 groups = loyal, competing, one timers)
+# p_historic (2-3 groups = heavy buyers, low-mid, low)
+# p_sales (possibly used to ignore low buyers, maybe 2 groups high and med)
+# p_length (very useful, combine with p_percent maybe, 2 groups longtime & new)
+# p_referrals (useful to see which segments have advocates)
+
+
+## 3.3 NEEDS -------------------------------------------------------------------
+data %>%
   select(starts_with("n_")) %>%
   gt_plt_summary()
 
 data %>%
+  select(n_flexibility) %>%
+  ggplot() +
+  geom_histogram(aes(n_flexibility))
+
+data %>%
+  select(n_assistance) %>%
+  ggplot() +
+  geom_histogram(aes(n_assistance))
+
+data %>%
+  select(starts_with("n_")) %>%
+  describe()
+# most care a lot about the price
+# our advantage in image and flexibility might not be that important
+# we might need to focus on tech assistance
+
+
+## 3.4 TRUST -------------------------------------------------------------------
+data %>%
   select(starts_with("tr_")) %>%
   gt_plt_summary()
 
+data %>%
+  select(tr_internet) %>%
+  ggplot() +
+  geom_histogram(aes(tr_internet))
+
+data %>%
+  select(starts_with("tr_")) %>%
+  describe()
+# TV & RADIO 2 groups mediocre trust
+# Internet normally dist lowest/still mediocre
+
+# Magazine better
+# Peers best
 
 
+# 4.0 ADD METRICS --------------------------------------------------------------
 
 
+## 4.1 TIME PROPORTIONS --------------------------------------------------------
+
+# proportions of total time at stands in Trade show
+# tp_ time proportions
+data <- 
+  data %>%
+  mutate(tp_hero = t_hero/t_total, .before = p_percent) %>%
+  round(2)
+
+data <- 
+  data %>%
+  mutate(tp_villains = t_villains/t_total, .before = p_percent) %>%
+  round(2)
 
 
+## 4.2 EXPLORE -----------------------------------------------------------------
+data %>%
+  select(starts_with("tp_")) %>%
+  gt_plt_summary()
+
+data %>%
+  select(starts_with("tp_")) %>%
+  describe()
+# roughly the same but hero proportions are overall lower
+# more useful when looking at segments
+
+
+# 5.0 EDA CONTINUED ------------------------------------------------------------
+
+corrs?
 
 
 
