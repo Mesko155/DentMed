@@ -15,7 +15,7 @@ rm(list=ls())
 #DontoRay VILLAIN (Key competitor)
 #OxyMed   VILLAIN (Key competitor)
 
-data_og <- read.csv("data_clustering_dmed.csv")
+data <- read.csv("data_clustering_dmed.csv")
 data <- as_tibble(data)
 
 #rename variables
@@ -58,7 +58,7 @@ summary(data)
 #TODO: outliers
 #TODO: add pipe assignments %<>%
 #TODO: add exposition assignments %$% (if needed)
-#TODO: 
+#TODO: lowercase contents
 
 
 # 2.0 CLEAN DATA ---------------------------------------------------------------
@@ -256,7 +256,7 @@ data %>%
 # more useful when looking at segments
 
 
-# 5.0 SEGMENTATION (NEEDS) -----------------------------------------------------
+# 5.0 Clustering (NEEDS) -----------------------------------------------------
 set.seed(155)
 
 fviz_nbclust(
@@ -367,7 +367,7 @@ cor(cophenetic(m3_hc), dmat_needs)
 # we will go with ward.D2
 
 
-# EXPLORE THEIR DIFFERENCES ---
+### 5.1.3 Explore main candidate -----------------------------------------------
 data_tester %>%
   group_by(ward2) %>%
   summarise(across(starts_with("n_"), \(x) mean(x, na.rm=TRUE)))
@@ -378,43 +378,97 @@ data_tester %>%
 
 
 
-## 5.2 K MEANS -----------------------------------------------------------------
+## 5.2 K Means -----------------------------------------------------------------
+
+
+# 2 or 3 clusters miss out on splitting obviously heterogeneous groups
+# so lets see if 5 or 6 gives more info
+# and we compare 'kmeans k4' to 'hierarchical k4'
+m1_k <- kmeans(dmat_needs, centers=4, nstart=25)
+m2_k <- kmeans(dmat_needs, centers=5, nstart=25)
+m3_k <- kmeans(dmat_needs, centers=6, nstart=25)
+
+data_tester$k_4 <- m1_k$cluster
+data_tester$k_5 <- m2_k$cluster
+data_tester$k_6 <- m3_k$cluster
+
+### 5.2.1 Compare k=4 with candidate from hierarchical -------------------------
+
+m1_k$size
+table(data_tester$ward2)
+# hierarchical and kmeans with 4 clusters very similar cluster sizes
+
+# Check how many differ
+# need to remap kmeans
+data_tester$k_4a <- ifelse(data_tester$k_4 == 1, 10, data_tester$k_4a)
+data_tester$k_4a <- ifelse(data_tester$k_4 == 2, 20, data_tester$k_4a)
+data_tester$k_4a <- ifelse(data_tester$k_4 == 3, 30, data_tester$k_4a)
+data_tester$k_4a <- ifelse(data_tester$k_4 == 4, 40, data_tester$k_4a)
+
+data_tester$k_4a <- ifelse(data_tester$k_4a == 10, 4, data_tester$k_4a)
+data_tester$k_4a <- ifelse(data_tester$k_4a == 20, 1, data_tester$k_4a)
+data_tester$k_4a <- ifelse(data_tester$k_4a == 30, 2, data_tester$k_4a)
+data_tester$k_4a <- ifelse(data_tester$k_4a == 40, 3, data_tester$k_4a)
+#TODO: make a single and dynamic statement for this
+# if it doesnt work on other pcs skip
+# basically negligible difference between
+# hierarchical k=4 and kmeans k=4
+
+data_tester %>%
+  filter(
+    data_tester$k_4a != data_tester$ward2 #k_4a remapped values
+  )
+# negligible difference
+# no need to examine it separately
+
+### 5.2.1 Check k=5 and k=6 ----------------------------------------------------
+
+m1_k$size #k=4
+m2_k$size #k=5
+m3_k$size #k=6
+
+data_tester %>%
+  group_by(k_5) %>%
+  summarise(across(starts_with("n_"), \(x) mean(x, na.rm=TRUE)))
+
+data_tester %>%
+  group_by(k_6) %>%
+  summarise(across(starts_with("n_"), \(x) mean(x, na.rm=TRUE)))
+# segments 'pulled out' by k5 and k6
+# are mid two clusters
+# and they are relatively small cca 100 observations
+# i believe nothing is gained by it
+# check needs table above just in case
+# TODO: check thoroughly for possible niches
+
+
+
+# 6.0 EDA with assigned segments -----------------------------------------------
+#TODO:corrs
+#TODO:univar plots
+#TODO:bivar plots
+#TODO:crosscategory examination
+
+data$segment <- cutree(m3_hc, k=4)
+
+data %>%
+  ggplot() +
+  geom_bar(aes(n_image)) +
+  facet_grid(.~segment)
+
+#TODO: need to melt the data for better plots
+
+data %>%
+  mutate(segment = as.factor(segment)) %>%
+  ggplot() +
+  geom_point(aes(p_percent, p_historic, color = segment))
+
+# above just examples, continue
 
 
 
 
-
-
-
-
-
-
-
-
-
-#stop
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# EDA CONTINUED ----------------------------------------------------------------
-
-corrs?
-
-# VISUALIZATION ----------------------------------------------------------------
+# Everything for final report --------------------------------------------------
 
 
 
