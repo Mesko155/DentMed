@@ -257,8 +257,8 @@ data %>%
 
 
 # 5.0 SEGMENTATION (NEEDS) -----------------------------------------------------
-# TODO: personas
-# TODO: explore segments
+set.seed(155)
+
 fviz_nbclust(
   data,
   kmeans,
@@ -338,13 +338,15 @@ data_tester$complete <- cutree(m1_hc, k=4) # complete
 data_tester$ward1 <- cutree(m2_hc, k=4) # ward.D1
 data_tester$ward2 <- cutree(m3_hc, k=4) # ward.D2
 
-# Check sizes
+
+# Check sizes ---
 table(data_tester$complete)
 table(data_tester$ward1)
 table(data_tester$ward2)
 # basically same sized clusters probably same obs grouped together
 
-# Check if completely equal
+
+# Check if completely equal ---
 data_tester %>%
   filter(
     data_tester$complete != data_tester$ward1 |
@@ -354,11 +356,37 @@ data_tester %>%
 # only 81 obs differ
 81/nrow(data_tester)
 # less than 4%
+# Basically doesn't matter much which linkage we use
 
-# Basically doesn't matter which linkage we use ---
 
+# Check CPCC ---
+cor(cophenetic(m1_hc), dmat_needs)
+cor(cophenetic(m2_hc), dmat_needs)
+cor(cophenetic(m3_hc), dmat_needs)
+# but since the third one has the best CPCC with 0.88
+# we will go with ward.D2
+
+
+# EXPLORE THEIR DIFFERENCES ---
 data_tester %>%
-  
+  group_by(ward2) %>%
+  summarise(across(starts_with("n_"), \(x) mean(x, na.rm=TRUE)))
+#TODO: Check K means clustering too, before settling with 'ward.d2 4 clusters'
+# will probably go with these one way or another
+#TODO: ANALYSE THESE
+#TODO: MAKE PERSONAS
+
+
+
+## 5.2 K MEANS -----------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 
 
