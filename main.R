@@ -1,7 +1,10 @@
 pacman::p_load(
   tidyverse,
   psych,
-  gtExtras # svglite dependency
+  svglite, # gtExtras dependency
+  gtExtras,
+  cluster,
+  factoextra
 )
 
 rm(list=ls())
@@ -12,7 +15,7 @@ rm(list=ls())
 #DontoRay VILLAIN (Key competitor)
 #OxyMed   VILLAIN (Key competitor)
 
-data <- read.csv("data_clustering_dmed.csv")
+data_og <- read.csv("data_clustering_dmed.csv")
 data <- as_tibble(data)
 
 #rename variables
@@ -53,7 +56,9 @@ data <-
 summary(data)
 
 #TODO: outliers
-#TODO: make proportion of times spent
+#TODO: add pipe assignments %<>%
+#TODO: add exposition assignments %$% (if needed)
+#TODO: 
 
 
 # 2.0 CLEAN DATA ---------------------------------------------------------------
@@ -219,7 +224,7 @@ data %>%
 # Peers best
 
 
-# 4.0 ADD METRICS --------------------------------------------------------------
+# 4.0 ADD COLUMNS --------------------------------------------------------------
 
 
 ## 4.1 TIME PROPORTIONS --------------------------------------------------------
@@ -236,6 +241,8 @@ data <-
   mutate(tp_villains = t_villains/t_total, .before = p_percent) %>%
   round(2)
 
+# TODO: add agreggate overall media trust? maybe not necessary
+
 
 ## 4.2 EXPLORE -----------------------------------------------------------------
 data %>%
@@ -249,15 +256,137 @@ data %>%
 # more useful when looking at segments
 
 
-# 5.0 EDA CONTINUED ------------------------------------------------------------
+# 5.0 SEGMENTATION (NEEDS) -----------------------------------------------------
+# TODO: personas
+# TODO: explore segments
+fviz_nbclust(
+  data,
+  kmeans,
+  method = "wss",
+  k.max = 20
+  ) +
+  theme_minimal()
+# after 4 k the slope dimishes
+# from 7 to 8 is completely horizontal
+# give a chance for up to 7
+# 4 or 5 probably best
+
+
+## 5.1 Hierarchical ------------------------------------------------------------
+
+dmat_needs <- 
+  data %>%
+  select(starts_with("n_")) %>% 
+  scale() %>%
+  daisy()
+
+# complete
+m1_hc <- 
+  dmat_needs %>%
+  hclust(
+    .,
+    method = "complete"
+  )
+
+# ward.D
+m2_hc <- 
+  dmat_needs %>%
+  hclust(
+    .,
+    method = "ward.D"
+  )
+
+# ward.D2
+m3_hc <- 
+  dmat_needs %>%
+  hclust(
+    .,
+    method = "ward.D2"
+  )
+
+### 5.1.1 Comparisons of three dendrograms -------------------------------------
+
+# complete ---
+plot(m1_hc)
+rect.hclust(m1_hc, k=2, border="orange")
+rect.hclust(m1_hc, k=4, border="red")
+# since height represents dissimilarity among clusters
+# we see significant vertical jumps on 2 and 4 k
+# same sized jumps, also both split
+# makes sense to go with 4 for more insights
+
+# ward.D1  ---
+plot(m2_hc)
+rect.hclust(m2_hc, k=3, border="orange")
+rect.hclust(m2_hc, k=4, border="red")
+# vertical jumps on 3 and 4 k
+# 4 makes more sense
+# going with 3 will ignore obvious heterogeneity in one group
+
+# ward.D2  ---
+plot(m3_hc)
+rect.hclust(m3_hc, k=4, border="red")
+# obvious 4 k
+
+### 5.1.2 Observe differences --------------------------------------------------
+
+data_tester <-
+  data %>%
+  select(id, starts_with("n_"))
+
+data_tester$complete <- cutree(m1_hc, k=4) # complete
+data_tester$ward1 <- cutree(m2_hc, k=4) # ward.D1
+data_tester$ward2 <- cutree(m3_hc, k=4) # ward.D2
+
+# Check sizes
+table(data_tester$complete)
+table(data_tester$ward1)
+table(data_tester$ward2)
+# basically same sized clusters probably same obs grouped together
+
+# Check if completely equal
+data_tester %>%
+  filter(
+    data_tester$complete != data_tester$ward1 |
+    data_tester$complete != data_tester$ward2 |
+    data_tester$ward1 != data_tester$ward2
+  )
+# only 81 obs differ
+81/nrow(data_tester)
+# less than 4%
+
+# Basically doesn't matter which linkage we use ---
+
+data_tester %>%
+  
+
+
+
+
+
+#stop
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# EDA CONTINUED ----------------------------------------------------------------
 
 corrs?
 
-
-
-
-
-
+# VISUALIZATION ----------------------------------------------------------------
 
 
 
