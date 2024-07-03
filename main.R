@@ -328,6 +328,11 @@ plot(m3_hc)
 rect.hclust(m3_hc, k=4, border="red")
 # obvious 4 k
 
+#quick check for 5
+plot(m3_hc)
+rect.hclust(m3_hc, k=5, border="red")
+#fifth is too small
+
 ### 5.1.2 Observe differences --------------------------------------------------
 
 data_tester <-
@@ -353,6 +358,7 @@ data_tester %>%
     data_tester$complete != data_tester$ward2 |
     data_tester$ward1 != data_tester$ward2
   )
+#TODO: pipe nrow into below equation
 # only 81 obs differ
 81/nrow(data_tester)
 # less than 4%
@@ -400,7 +406,8 @@ table(data_tester$ward2)
 
 # Check how many differ
 # need to remap kmeans
-data_tester$k_4a <- ifelse(data_tester$k_4 == 1, 10, data_tester$k_4a)
+data_tester$k_4a <- 0
+data_tester$k_4a <- ifelse(data_tester$k_4 == 1, 10, data_tester$k_4a) #uninit k_4a
 data_tester$k_4a <- ifelse(data_tester$k_4 == 2, 20, data_tester$k_4a)
 data_tester$k_4a <- ifelse(data_tester$k_4 == 3, 30, data_tester$k_4a)
 data_tester$k_4a <- ifelse(data_tester$k_4 == 4, 40, data_tester$k_4a)
@@ -449,14 +456,82 @@ data_tester %>%
 #TODO:bivar plots
 #TODO:crosscategory examination
 
-data$segment <- cutree(m3_hc, k=4)
+data$segment <- as.factor(cutree(m3_hc, k=4))
 
+## 6.1 Differences across needs ----------------------------------------
+data %>%
+  group_by(segment) %>%
+  mutate(size = n()) %>%
+  mutate(size_prop = size/nrow(data)) %>%
+  summarise(
+    across(starts_with("n_"), \(x) mean(x, na.rm=TRUE)),
+    size = unique(size),
+    size_prop = unique(size_prop)
+    )
+#TODO: sizing couldnt use group size figure out after project
+# data %>%
+#   group_by(segment) %>%
+#   group_size()
+# 
+# nrow(data[data$segment == "3",])
+
+
+## 6.1.1 Needs visual inspection -----------------------------------------------
+
+#exploration
 data %>%
   ggplot() +
   geom_bar(aes(n_image)) +
   facet_grid(.~segment)
 
-#TODO: need to melt the data for better plots
+data %>%
+  ggplot() +
+  geom_bar(aes(n_flexibility)) +
+  facet_grid(.~segment)
+
+data %>%
+  ggplot() +
+  geom_bar(aes(n_integration)) +
+  facet_grid(.~segment)
+
+data %>%
+  ggplot() +
+  geom_bar(aes(n_assistance)) +
+  facet_grid(.~segment)
+
+data %>%
+  ggplot() +
+  geom_bar(aes(n_price)) +
+  facet_grid(.~segment)
+#TODO: need to melt the data for better plots, or 2d facets
+
+
+
+data %>%
+  select(starts_with("n_"), "segment") %>%
+  filter(segment == 2) %>%
+  pivot_longer(
+    starts_with("n_"),
+    names_to = "key", 
+    values_to = "value"
+  ) %>%
+  ggplot(aes(value)) +
+  geom_boxplot() +
+  facet_grid(.~key)
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 data %>%
   mutate(segment = as.factor(segment)) %>%
