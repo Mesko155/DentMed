@@ -276,7 +276,7 @@ fviz_nbclust(
   k.max = 20
   ) +
   theme_minimal()
-# after 4 k the slope dimishes
+# after 4 k the slope diminishes
 # from 7 to 8 is completely horizontal
 # give a chance for up to 7
 # 4 or 5 probably best
@@ -516,6 +516,13 @@ data %>%
 #TODO: need to melt the data for better plots, or 2d facets
 
 
+# check segment 2 ---
+data %>%
+  filter(segment == 2) %>%
+  select(starts_with("t_")) %>%
+  gt_plt_summary()
+#TODO: cant bother with this right now
+# use below
 
 data %>%
   select(starts_with("n_"), "segment") %>%
@@ -526,9 +533,12 @@ data %>%
     values_to = "value"
   ) %>%
   ggplot(aes(value)) +
-  geom_boxplot() +
-  facet_grid(.~key)
-  
+  geom_bar() +
+  facet_grid(.~key) +
+  labs(x = "Needs; Likert 1-7", y = "Counts")
+# generally uniform expectations
+# some low outliers from price maybe should have been clustered with Seg3
+
 
 
 
