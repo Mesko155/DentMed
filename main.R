@@ -9,11 +9,16 @@ pacman::p_load(
 
 rm(list=ls())
 
-# 1.0 DATA LOAD AND PREP -------------------------------------------------------
+# 1.0 Data load and prep -------------------------------------------------------
 
-#DentMed  HERO
-#DontoRay VILLAIN (Key competitor)
-#OxyMed   VILLAIN (Key competitor)
+# DentMed  HERO
+# DontoRay VILLAIN (Key competitor)
+# OxyMed   VILLAIN (Key competitor)
+ 
+# TSB - TRADE SHOW BEHAVIOR     t_
+# PPB - PAST PURCAHSE BEHAVIOR  p_
+# NEEDS/PREFERENCES             n_
+# TRUST IN MEDIA                tr_
 
 data <- read.csv("data_clustering_dmed.csv")
 data <- as_tibble(data)
@@ -21,12 +26,12 @@ data <- as_tibble(data)
 #rename variables
 names(data) <-
   c(
-    #time
+    #TSB 
     "t_hero",
     "t_villains",
     "t_total",
     
-    #past purchase beh
+    #PPB
     "p_percent",
     "p_historic",
     "p_sales",
@@ -61,10 +66,10 @@ summary(data)
 #TODO: lowercase contents
 
 
-# 2.0 CLEAN DATA ---------------------------------------------------------------
+# 2.0 Clean data ---------------------------------------------------------------
 
 
-## 2.1 NA CHECK ----------------------------------------------------------------
+## 2.1 NA check ----------------------------------------------------------------
 any(is.na(data))
 
 data %>%
@@ -74,7 +79,7 @@ data <- na.omit(data)
 # removed rows containing at least 1 NA (n= 2330 > 2320)
 # all happened to be full rows of NA
 
-## 2.2 TIME CHECK --------------------------------------------------------------
+## 2.2 Time check --------------------------------------------------------------
 any(data$t_hero > data$t_total | data$t_villains > data$t_total) # none faulty
 any((data$t_hero + data$t_villains) > data$t_total) #none faulty
 #checked if either (or together) are more than total
@@ -84,7 +89,7 @@ range(data$t_villains)
 range(data$t_total)
 
 
-## 2.3 LIKERTS RANGE CHECK -----------------------------------------------------
+## 2.3 Likerts check -----------------------------------------------------------
 data %>%
   select(c(id, n_image:tr_peers)) %>%
   filter(
@@ -106,9 +111,9 @@ data <-
 # removed rows containing values outside of likert range (n= 2320 > 2300)
 
 
-## 2.4 PERCENT AND INDEX CHECK -------------------------------------------------
+## 2.4 Percent and Index check -------------------------------------------------
 range(data$p_percent) # 5-101 some must be faulty
-range(data$p_historic) # 8-65 should be ok
+range(data$p_historic) # 8-65 should be ok, weird but ok
 
 data %>%
   select(c(id, p_percent)) %>%
@@ -132,7 +137,7 @@ data <-
 # removed rows with values outside of percentage range (n= 2300 > 2272)
 
 
-## 2.5 CHECK LAST REMAINING VARIABLES (p_sales, p_length, p_referrals) ---------
+## 2.5 Check remaining (p_sales, p_length, p_referrals) ------------------------
 describe(data$p_sales) #sales freq (yearly number of orders from HERO)
 describe(data$p_length) #length of relationship with HERO
 
@@ -157,9 +162,9 @@ table(data$p_length)
 
 
 
-# 3.0 EDA ----------------------------------------------------------------------
+# 3.0 Checks -------------------------------------------------------------------
 
-## 3.1 TRADE SHOW --------------------------------------------------------------
+## 3.1 TSB ---------------------------------------------------------------------
 data %>%
   select(starts_with("t_")) %>%
   gt_plt_summary()
@@ -174,7 +179,7 @@ data %>%
   geom_histogram(aes(t_villains), bins = 70)
 
 
-## 3.2 PAST PURCHASE BEH -------------------------------------------------------
+## 3.2 PPB ---------------------------------------------------------------------
 data %>%
   select(starts_with("p_")) %>%
   gt_plt_summary()
@@ -191,7 +196,7 @@ data %>%
 # p_referrals (useful to see which segments have advocates)
 
 
-## 3.3 NEEDS -------------------------------------------------------------------
+## 3.3 Needs -------------------------------------------------------------------
 data %>%
   select(starts_with("n_")) %>%
   gt_plt_summary()
@@ -214,7 +219,7 @@ data %>%
 # we might need to focus on tech assistance
 
 
-## 3.4 TRUST -------------------------------------------------------------------
+## 3.4 Trust -------------------------------------------------------------------
 data %>%
   select(starts_with("tr_")) %>%
   gt_plt_summary()
@@ -234,10 +239,10 @@ data %>%
 # Peers best
 
 
-# 4.0 ADD COLUMNS --------------------------------------------------------------
+# 4.0 Add columns --------------------------------------------------------------
 
 
-## 4.1 TIME PROPORTIONS --------------------------------------------------------
+## 4.1 Time proportions --------------------------------------------------------
 
 # proportions of total time at stands in Trade show
 # tp_ time proportions
@@ -254,7 +259,7 @@ data <-
 # TODO: add agreggate overall media trust? maybe not necessary
 
 
-## 4.2 EXPLORE -----------------------------------------------------------------
+## 4.2 Check -------------------------------------------------------------------
 data %>%
   select(starts_with("tp_")) %>%
   gt_plt_summary()
@@ -266,7 +271,7 @@ data %>%
 # more useful when looking at segments
 
 
-# 5.0 Clustering (NEEDS) -----------------------------------------------------
+# 5.0 Clustering (Needs) -------------------------------------------------------
 set.seed(155)
 
 fviz_nbclust(
@@ -338,10 +343,15 @@ plot(m3_hc)
 rect.hclust(m3_hc, k=4, border="red")
 # obvious 4 k
 
-#quick check for 5
+# quick check for 5
 plot(m3_hc)
 rect.hclust(m3_hc, k=5, border="red")
-#fifth is too small
+# fifth is too small
+
+# quick check for 6
+plot(m3_hc)
+rect.hclust(m3_hc, k=6, border="red")
+# doesnt achieve goal of segmenting the largest one further
 
 ### 5.1.2 Observe differences --------------------------------------------------
 
@@ -460,7 +470,7 @@ data_tester %>%
 
 
 
-# 6.0 EDA with assigned segments -----------------------------------------------
+# 6.0 EDA across segments ------------------------------------------------------
 #TODO:corrs
 #TODO:univar plots
 #TODO:bivar plots
@@ -468,7 +478,8 @@ data_tester %>%
 
 data$segment <- as.factor(cutree(m3_hc, k=4))
 
-## 6.1 Differences across needs ----------------------------------------
+## 6.1 Differences across Needs ------------------------------------------------
+
 data %>%
   group_by(segment) %>%
   mutate(size = n()) %>%
@@ -478,6 +489,7 @@ data %>%
     size = unique(size),
     size_prop = unique(size_prop)
     )
+
 #TODO: sizing couldnt use group size figure out after project
 # data %>%
 #   group_by(segment) %>%
@@ -486,7 +498,7 @@ data %>%
 # nrow(data[data$segment == "3",])
 
 
-## 6.1.1 Needs visual inspection -----------------------------------------------
+### 6.1.1 Visual inspection ----------------------------------------------------
 
 #exploration
 data %>%
@@ -541,28 +553,113 @@ data %>%
 
 
 
+## 6.2 Differences across PPB --------------------------------------------------
+data %>%
+  group_by(segment) %>%
+  mutate(size = n()) %>%
+  mutate(size_prop = size/nrow(data)) %>%
+  summarise(
+    across(starts_with("p_"), \(x) mean(x, na.rm=TRUE)),
+    size = unique(size),
+    size_prop = unique(size_prop)
+  )
+# key descriptors for segments
 
-
-
-
-
-
-
-
-
-
-
+range(data$p_historic)
+range(data$p_referrals)
+range(data$p_length)
 
 data %>%
-  mutate(segment = as.factor(segment)) %>%
+  ggplot() +
+  geom_histogram(aes(p_percent)) +
+  facet_grid(.~segment)
+
+data %>%
+  ggplot() +
+  geom_histogram(aes(p_historic)) +
+  facet_grid(.~segment)
+# above two look similar
+
+# p_percent by p_historic
+data %>%
   ggplot() +
   geom_point(aes(p_percent, p_historic, color = segment))
+  
 
-# above just examples, continue
+data %>%
+  ggplot() +
+  geom_histogram(aes(p_sales)) +
+  facet_grid(.~segment)
+  
+data %>%
+  ggplot() +
+  geom_histogram(aes(p_length)) +
+  facet_grid(.~segment)
+
+
+## 6.3 Differences in TSB ------------------------------------------------------
+
+# absolute minutes
+data %>%
+  group_by(segment) %>%
+  mutate(size = n()) %>%
+  mutate(size_prop = size/nrow(data)) %>%
+  summarise(
+    across(starts_with("t_"), \(x) mean(x, na.rm=TRUE)),
+    size = unique(size),
+    size_prop = unique(size_prop)
+  )
+
+# proportion of total
+data %>%
+  group_by(segment) %>%
+  mutate(size = n()) %>%
+  mutate(size_prop = size/nrow(data)) %>%
+  summarise(
+    across(starts_with("t_"), \(x) mean(x, na.rm=TRUE)),
+    size = unique(size),
+    size_prop = unique(size_prop)
+  )
+
+
+## 6.4 Differences in Trust
+
+data %>%
+  group_by(segment) %>%
+  mutate(size = n()) %>%
+  mutate(size_prop = size/nrow(data)) %>%
+  summarise(
+    across(starts_with("tr_"), \(x) mean(x, na.rm=TRUE)),
+    size = unique(size),
+    size_prop = unique(size_prop)
+  )
+
+
+
+  
+
+  
+  
+  
+#stop
 
 
 
 
+
+
+#TODO: RELABEL na kraju
+data <- 
+  data %>%
+  mutate(
+    segment = fct_recode(
+      segment,
+      "1" = "1",
+      "2" = "2",
+      "3" = "3",
+      "4" = "4",
+    )
+  )
 # Everything for final report --------------------------------------------------
 
 
