@@ -142,9 +142,19 @@ describe(data$p_length) #length of relationship with HERO
 # THUS
 # those with zero could be classified as LOST CUSTOMERS (or ONE TIMERS)
 # since they have established relationship with us
-
 describe(data$p_referrals)
 # seems ok
+
+
+## 2.6 Length, percentage bought problem ---------------------------------------
+#TODO: REVIEW CLEAN UP SINCE the group told me perc has zeroes and relat min 4
+summary(data)
+table(data$p_percent)
+table(data$p_length)
+#Nope they made a mistake
+#TODO: DELETE THIS
+
+
 
 
 # 3.0 EDA ----------------------------------------------------------------------
