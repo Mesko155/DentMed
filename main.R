@@ -498,7 +498,7 @@ data %>%
 # nrow(data[data$segment == "3",])
 
 
-### 6.1.1 Visual inspection ----------------------------------------------------
+# Visual inspection ---
 
 #exploration
 data %>%
@@ -597,7 +597,7 @@ data %>%
   facet_grid(.~segment)
 
 
-## 6.3 Differences in TSB ------------------------------------------------------
+## 6.3 Differences across TSB --------------------------------------------------
 
 # absolute minutes
 data %>%
@@ -622,7 +622,7 @@ data %>%
   )
 
 
-## 6.4 Differences in Trust
+## 6.4 Differences across Trust ------------------------------------------------
 
 data %>%
   group_by(segment) %>%
@@ -634,14 +634,30 @@ data %>%
     size_prop = unique(size_prop)
   )
 
+# 7.0 Elements for final report ------------------------------------------------
+
+data <- 
+  data %>%
+  mutate(
+    segment = fct_recode(
+      segment,
+      "1" = "w",
+      "2" = "2",
+      "3" = "3",
+      "4" = "4",
+    )
+  )
 
 
-  
 
-  
-  
+
+
+
   
 #stop
+
+
+
 
 
 
@@ -660,7 +676,6 @@ data <-
       "4" = "4",
     )
   )
-# Everything for final report --------------------------------------------------
 
 
 
