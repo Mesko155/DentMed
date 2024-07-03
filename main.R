@@ -60,10 +60,7 @@ data <-
 
 summary(data)
 
-#TODO: outliers
-#TODO: add pipe assignments %<>%
-#TODO: add exposition assignments %$% (if needed)
-#TODO: lowercase contents
+#TODO: check outliers, practice data set doubt it has them
 
 
 # 2.0 Clean data ---------------------------------------------------------------
@@ -151,17 +148,6 @@ describe(data$p_referrals)
 # seems ok
 
 
-## 2.6 Length, percentage bought problem ---------------------------------------
-#TODO: REVIEW CLEAN UP SINCE the group told me perc has zeroes and relat min 4
-summary(data)
-table(data$p_percent)
-table(data$p_length)
-#Nope they made a mistake
-#TODO: DELETE THIS
-
-
-
-
 # 3.0 Checks -------------------------------------------------------------------
 
 ## 3.1 TSB ---------------------------------------------------------------------
@@ -187,14 +173,6 @@ data %>%
 data %>%
   select(starts_with("p_")) %>%
   describe()
-
-# TODO: needs detailed look
-# p_percent (3 groups = loyal, competing, one timers)
-# p_historic (2-3 groups = heavy buyers, low-mid, low)
-# p_sales (possibly used to ignore low buyers, maybe 2 groups high and med)
-# p_length (very useful, combine with p_percent maybe, 2 groups longtime & new)
-# p_referrals (useful to see which segments have advocates)
-
 
 ## 3.3 Needs -------------------------------------------------------------------
 data %>%
@@ -377,12 +355,11 @@ data_tester %>%
     data_tester$complete != data_tester$ward1 |
     data_tester$complete != data_tester$ward2 |
     data_tester$ward1 != data_tester$ward2
-  )
-#TODO: pipe nrow into below equation
+  ) %>%
+  nrow(.)/nrow(data_tester)
 # only 81 obs differ
-81/nrow(data_tester)
 # less than 4%
-# Basically doesn't matter much which linkage we use
+# Basically doesn't matter much which linkage we use, but check cpcc
 
 
 # Check CPCC ---
@@ -397,10 +374,8 @@ cor(cophenetic(m3_hc), dmat_needs)
 data_tester %>%
   group_by(ward2) %>%
   summarise(across(starts_with("n_"), \(x) mean(x, na.rm=TRUE)))
-#TODO: Check K means clustering too, before settling with 'ward.d2 4 clusters'
-# will probably go with these one way or another
-#TODO: ANALYSE THESE
-#TODO: MAKE PERSONAS
+# Check K means clustering too, before settling with 'ward.d2 4 clusters'
+# will probably go with this one
 
 
 
@@ -436,7 +411,7 @@ data_tester$k_4a <- ifelse(data_tester$k_4a == 10, 4, data_tester$k_4a)
 data_tester$k_4a <- ifelse(data_tester$k_4a == 20, 1, data_tester$k_4a)
 data_tester$k_4a <- ifelse(data_tester$k_4a == 30, 2, data_tester$k_4a)
 data_tester$k_4a <- ifelse(data_tester$k_4a == 40, 3, data_tester$k_4a)
-#TODO: make a single and dynamic statement for this
+#TODO: make a single and dynamic statement for this, if i have time
 # if it doesnt work on other pcs skip
 # basically negligible difference between
 # hierarchical k=4 and kmeans k=4
@@ -466,15 +441,10 @@ data_tester %>%
 # and they are relatively small cca 100 observations
 # i believe nothing is gained by it
 # check needs table above just in case
-# TODO: check thoroughly for possible niches
 
 
 
 # 6.0 EDA across segments ------------------------------------------------------
-#TODO:corrs
-#TODO:univar plots
-#TODO:bivar plots
-#TODO:crosscategory examination
 
 data$segment <- as.factor(cutree(m3_hc, k=4))
 
@@ -548,7 +518,6 @@ data %>%
   geom_bar() +
   facet_grid(.~key) +
   labs(x = "Needs; Likert 1-7", y = "Counts")
-# generally uniform expectations
 # some low outliers from price maybe should have been clustered with Seg3
 
 
@@ -641,10 +610,10 @@ data <-
   mutate(
     segment = fct_recode(
       segment,
-      "1" = "w",
-      "2" = "2",
-      "3" = "3",
-      "4" = "4",
+      "Small Fish" = "1",
+      "Big Fish" = "2",
+      "Whale" = "3",
+      "Pebble" = "4",
     )
   )
 
@@ -664,18 +633,6 @@ data <-
 
 
 
-#TODO: RELABEL na kraju
-data <- 
-  data %>%
-  mutate(
-    segment = fct_recode(
-      segment,
-      "1" = "1",
-      "2" = "2",
-      "3" = "3",
-      "4" = "4",
-    )
-  )
 
 
 
