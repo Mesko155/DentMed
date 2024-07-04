@@ -676,10 +676,13 @@ rect.hclust(m3_hc, k=4, border="green")
 rect.hclust(m3_hc, k=5, border="red")
 ```
 
-All clustering techniques result with four clusters that have negligible differences in clusters sizes and their characteristics. However, fit across different linkage methods was compared using Cophonetic Correlation Coefficient (table below), and Ward.D1 linkage using Hierarchical clustering at k=4 was decided upon as the optimal solution for the business issue at hand.
+All clustering techniques result with four clusters that have negligible differences in clusters sizes and their characteristics. However, fit across different linkage methods was compared using Cophonetic Correlation Coefficient (below), and Ward.D2 linkage using Hierarchical clustering at k=4 was decided upon as the optimal solution for the business issue at hand.
 
 ```{r, echo=FALSE}
 #tabela CPCC
+paste0("Complete: ", round(cor(cophenetic(m1_hc), dmat_needs), digits=2))
+paste0("Ward.D1:  ", round(cor(cophenetic(m2_hc), dmat_needs), digits=2))
+paste0("Ward.D2:  ", round(cor(cophenetic(m3_hc), dmat_needs), digits=2))
 ```
 
-Problematic outliers werent found.
+## Segments and discussion
