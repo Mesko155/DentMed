@@ -1,6 +1,6 @@
 ---
 title: "DentMedSTP"
-author: "Meho Porobic"
+author: "Clelia Veith, Duygu Yilmaz, Elif LASTNAME, Eren Gundogdu, Meho Porobic"
 date: "`r Sys.Date()`"
 output: pdf_document
 ---
