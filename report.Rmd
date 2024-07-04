@@ -6,7 +6,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 
 # This part includes prep, cleaning, clustering
 # For better overview use 'main.R' basic r script
@@ -662,7 +662,7 @@ fviz_nbclust(
   theme_minimal()
 ```
 
-However, the dendrogram below shows clusters above 4 do not partition the largest cluster and their sizes are too small to, thus providing us with no additional business worth insight.
+However, the dendrogram below shows clusters above 4 do not partition the largest cluster and their sizes are too small as well, thus providing us with no additional business worth insight.
 
 ```{r, echo=FALSE}
 plot(
@@ -685,6 +685,8 @@ paste0("Ward.D1:  ", round(cor(cophenetic(m2_hc), dmat_needs), digits=2))
 paste0("Ward.D2:  ", round(cor(cophenetic(m3_hc), dmat_needs), digits=2))
 #TODO: mozda tabelu napravit kasnije
 ```
+
+TODO:PAGEBREAK HERE maybe
 
 ## Segments and Characteristics
 
