@@ -635,3 +635,7 @@ data %>%
 ```{r}
 
 ```
+
+## Context and the issue
+
+We are the market leader in the growing space for digital X-ray equipment. We provide high-end products and have the edge with highest image quality and diagnostic flexibility. However, our market share has dropped by 10%, while our key competitors, with claims of equal product quality, are eager to expand upon it (grew 5%). They are not matching the needs we provide for our niche yet, but we are forced to revisit what the market needs are, both to solidify our retention strategies and find areas for expansion.
