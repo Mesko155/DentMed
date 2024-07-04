@@ -1,8 +1,8 @@
 ---
-title: "DentMedSTP"
-author: "Clelia Veith, Duygu Yilmaz, Elif LASTNAME, Eren Gundogdu, Meho Porobic"
+title: "DentMed STP"
+author: "Clelia Veith, Beyza Duygu Yilmaz, Elif Yesim Ozoral, Eren Gundogdu, Meho Porobic"
 date: "`r Sys.Date()`"
-output: pdf_document #cover page
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -620,6 +620,8 @@ data %>%
   )
 ```
 
+\pagebreak
+
 ## Contents
 
 -   Context and the Issue
@@ -648,9 +650,9 @@ Dataset had to first undergo the clean-up process to remove faulty data. There w
 
 ## Clustering
 
-The clustering techniques were used across Needs scales. We have used hierarchical clustering which allowed for visual inspection of the dendrograms, but we also complemented it by comparisons across different linkage methods and with the results of the K-means clustering. The Elbow curve below shows the technically viable count of clusters could go up to 7.
+The clustering techniques were used across Needs scales. We have used hierarchical clustering which allowed for visual inspection of the dendrograms, but we also complemented it by comparisons across different linkage methods and with the results of the K-means clustering. The Elbow curve shows the technically viable count of clusters could go up to 7. However, the dendrogram below shows clusters above 4 do not partition the largest cluster and their sizes are too small as well, thus providing us with no additional business worth insight.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
 set.seed(155)
 
 fviz_nbclust(
@@ -661,8 +663,6 @@ fviz_nbclust(
   ) +
   theme_minimal()
 ```
-
-However, the dendrogram below shows clusters above 4 do not partition the largest cluster and their sizes are too small as well, thus providing us with no additional business worth insight.
 
 ```{r, echo=FALSE}
 plot(
@@ -686,7 +686,7 @@ paste0("Ward.D2:  ", round(cor(cophenetic(m3_hc), dmat_needs), digits=2))
 #TODO: mozda tabelu napravit kasnije
 ```
 
-TODO:PAGEBREAK HERE maybe
+\pagebreak
 
 ## Segments and Characteristics
 
