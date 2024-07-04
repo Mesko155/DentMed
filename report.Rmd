@@ -639,3 +639,7 @@ data %>%
 ## Context and the issue
 
 We are the market leader in the growing space for digital X-ray equipment. We provide high-end products and have the edge with highest image quality and diagnostic flexibility. However, our market share has dropped by 10%, while our key competitors, with claims of equal product quality, are eager to expand upon it (grew 5%). They are not matching the needs we provide for our niche yet, but we are forced to revisit what the market needs are, both to solidify our retention strategies and find areas for expansion.
+
+## Dataset and goals
+
+The raw dataset contains 2330 observations with four sets variables. The first set, concerned with consumer preferences recorded on 7-point Likert scales (Needs), will allow for a meaningful grouping of the market. The second set, with recordings of past purchase behaviors (PPB), will provide valuable business insights, which then allows for a useful descriptions of the segments that arose from clustering, and will thus inform our strategy on targeting and the adequate positioning. This will be complemented by the following two sets. Trade show behaviors (TSB), that show time spent at our and key competitor booths, as well as the total time, which allows us to see proportions and infer possible future dynamics of the given segments, and the risks we might face. Finally, 7-point Likert scales on trust in media (Trust) will further guide our targeting and positions ideas and strategies.
