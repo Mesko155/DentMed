@@ -2,7 +2,7 @@
 title: "DentMedSTP"
 author: "Clelia Veith, Duygu Yilmaz, Elif LASTNAME, Eren Gundogdu, Meho Porobic"
 date: "`r Sys.Date()`"
-output: pdf_document
+output: pdf_document #cover page
 ---
 
 ```{r setup, include=FALSE}
@@ -715,3 +715,11 @@ This is the largest segment of the market at 46%. They are very price sensitive,
 Around 32% of their purchases is from us, but their TSBs show they spent double the time at our competitors. However, the most revealing part about their TSBs is that overall they spent a low amount of time at both our and competitors booth; 12% and 20% respectively. This suggests that the high-end quality and premium price of our offerings might be a mismatch, but the rest of the market still does not manage to satisfy their needs overall. There is a chance our current hold of about the third of this segment might slowly diminish over long-term if we ignore the market dynamics.
 
 ## Targeting and Positioning
+
+We should first focus on developing better technical assistance and informing our target segments of it through adequate media. First, we need to retain our dominance of the Whale segment. They place high amount of trust in their peers and in magazines. They also have the most referrals on average. We should use this conjunction to counteract low referral rates in other segments. On the other hand our main target for expansion, the Big Fish, place high trust in peer suggestions but their referral rates are low. We propose referral programs to be introduced through magazines. Incentivizing the Whales to refer both to praise the product within the segment, and to use referral programs in order to have a spill over effect to the Big Fish.
+
+Second, we should further examine the software integration needs. The goal here should be to provide ease of use across our product line, while also providing satisfying levels of software integration with the products of our competitors. We should already have informed the consumer base well about our high levels of technical assistance which would help them with any problems in integration. However, we should use internet sources to reach the Big Fish and advertise the ease and quality of use across our product ecosystem. We should reiterate the compounding effects of using multitude of our products. Further the Big Fish in this sense are approached from three directions they place most trust in; magazines, internet, and peer suggestions.
+
+Third, since our two focal targets are our long-term customers we should also create loyalty programs to preserve our current base, and offer them discounts or trials of additional products in order to demonstrate the benefits of the holistic use of the ecosystem.
+
+Finally, we should make sure the integration across brands is still working to degree where it will not create frustrations and push our base towards the competitors. In the case of the Small Fish, they are on a budget and seeking quality products. Even though we hold one third of that segment, and the value we extract is less than that of Whales/Big Fish, we should still make sure our less expensive lines of products provide better integration with other brands.
