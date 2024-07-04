@@ -683,6 +683,11 @@ All clustering techniques result with four clusters that have negligible differe
 paste0("Complete: ", round(cor(cophenetic(m1_hc), dmat_needs), digits=2))
 paste0("Ward.D1:  ", round(cor(cophenetic(m2_hc), dmat_needs), digits=2))
 paste0("Ward.D2:  ", round(cor(cophenetic(m3_hc), dmat_needs), digits=2))
+#TODO: mozda tabelu napravit kasnije
 ```
 
 ## Segments and discussion
+
+The segment labeling here uses the fisherman metaphor. We are facing four segments of varying sizes, varying needs, and varying purchasing behaviors. This is reflected in the naming convention here; 'Pebble', 'Small Fish', 'Big Fish', and 'Whales'.
+
+The first segment named 'Pebble' represents 22% of the market. It reflects the highly price sensitive consumers that are looking for an average product on a budget. Historically they have low amount of orders, low sales, and hard ever refer to other dentists. We hold around 10% of this market, and it accounts for minuscule proportion of our sales. Based on their needs they are a mismatch for our offering and the approximate customer lifetime value of this segment is very low. The other segments are discussed in detail below.
