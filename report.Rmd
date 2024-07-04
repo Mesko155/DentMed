@@ -620,16 +620,18 @@ data %>%
   )
 ```
 
+## Contents
 
+-   Context and the issue
 
-```{r cars}
+-   Dataset and goals
+
+-   Cleaning and clustering
+
+-   Segments and discussion
+
+-   Targeting and positioning
+
+```{r}
 
 ```
-
-
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-
