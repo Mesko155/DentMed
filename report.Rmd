@@ -1,3 +1,19 @@
+---
+title: "DentMedSTP"
+author: "Meho Porobic"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# This part includes prep, cleaning, clustering
+# For better overview use 'main.R' basic r script
+# Outline will show contents adequately in it
+
+
+
 pacman::p_load(
   tidyverse,
   psych,
@@ -602,48 +618,18 @@ data %>%
     size = unique(size),
     size_prop = unique(size_prop)
   )
-
-# 7.0 Elements for final report ------------------------------------------------
-
-data <- 
-  data %>%
-  mutate(
-    segment = fct_recode(
-      segment,
-      "Small Fish" = "1",
-      "Big Fish" = "2",
-      "Whale" = "3",
-      "Pebble" = "4",
-    )
-  )
-
-# continued in rmd file
+```
 
 
 
+```{r cars}
 
-  
-#stop
-
-
+```
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
 
 
