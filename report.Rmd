@@ -694,10 +694,16 @@ The first segment named 'Pebble' represents 22% of the market. It reflects the h
 
 ### Whales
 
-Whales form the smallest segment, accounting for only 11% of the market. However, they are a perfect match for our high-end offerings. They are looking for a premium and they do not mind the price. They buy a lot and they buy often, and on top of that they are extremely loyal with all of their purchasing coming from us. They do not care about software integration, likely because they are fully immersed in our product ecosystem, but there is a chance we are neglecting their 'technical assistance' needs. TSB show that on average they spent 45% of their time at our venues, while one quarter of their time was spent 'shopping around' at the key competitors. We are at this risk of losing our main niche if we do not address their rising needs for technical assistance immediately.
+Whales form the smallest segment, accounting for only 11% of the market. However, they are a perfect match for our high-end offerings. They are looking for a premium and they do not mind the price. They buy a lot and they buy often, and on top of that they are extremely loyal with all of their purchasing coming from us. They do not care about software integration, likely because they are fully immersed in our product ecosystem, but there is a chance we are neglecting their 'technical assistance' needs.
+
+TSB show that on average they spent 45% of their time at our venues, while one quarter of their time was spent 'shopping around' at the key competitors. We are at this risk of losing our main niche if we do not address their rising needs for technical assistance immediately.
 
 ### Big Fish
 
-Big Fish forms the second mid-sized segment, like Pebble, for the 22% of the market. They want a high quality product, but they are mindful of the price (not as price sensitive as Pebble and Small Fish). They also want quality technical assistance, but in contrast to Whales they show a high need for software integration. Their purchases are the highest in dollars, they buy almost as often as Whales, and the average relationship we have with them
+Big Fish forms the second mid-sized segment, like Pebble, for the 22% of the market. They want a high quality product, but they are mindful of the price (not as price sensitive as Pebble and Small Fish). They also want quality technical assistance, but in contrast to Whales they show a high need for software integration. Their purchases are the highest in dollars, they buy almost as often as Whales, and the average relationship we have with them is as long or longer than the Whales.
 
-Slightly less than half of their purchases come from us so this segment is likely the main battleground at this point. If we win them over, and
+However, slightly less than half of their purchases come from us so this segment is the main battleground at this point, and is likely the segment leaking out customers. TSB shows that on average they have spent twice as less time at our booths compared to our key competitors; 36% and 78% time spent respectively (proportions were averaged so they do not add up to 100).
+
+This segment requires most of our attention with regard to retention and future expansion, their referral rates are low so maybe they should be targeted indirectly, which will be discussed in proceeding paragraphs. Also, if we win them over we could submerge them in our product ecosystem, lessening their need for software integration, and cementing them as loyal customers.
+
+### Small Fish
