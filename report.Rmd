@@ -622,23 +622,23 @@ data %>%
 
 ## Contents
 
--   Context and the issue
+-   Context and the Issue
 
--   Dataset and goals
+-   Dataset
 
 -   Cleaning
 
 -   Clustering
 
--   Segments and discussion
+-   Segments and Characteristics
 
--   Targeting and positioning
+-   Targeting and Positioning
 
-## Context and the issue
+## Context and the Issue
 
 We are the market leader in the growing space for digital X-ray equipment. We provide high-end products and have the edge with highest image quality and diagnostic flexibility. However, our market share has dropped by 10%, while our key competitors, with claims of equal product quality, are eager to expand upon it (grew 5%). They are not matching the needs we provide for our niche yet, but we are forced to revisit what the market needs are, both to solidify our retention strategies and find areas for expansion.
 
-## Dataset and goals
+## Dataset
 
 The raw dataset contains n=2330 observations (obs.) with four sets variables. The first set, concerned with consumer preferences recorded on 7-point Likert scales (Needs), will allow for a meaningful grouping of the market. The second set, with recordings of past purchase behaviors (PPB), will provide valuable business insights, which then allows for a useful descriptions of the segments that arose from clustering, and will thus inform our strategy on targeting and the adequate positioning. This will be complemented by the following two sets. Trade show behaviors (TSB), that show time spent at our and key competitor booths, as well as the total time, which allows us to see proportions and infer possible future dynamics of the given segments, and the risks we might face. Finally, 7-point Likert scales on trust in media (Trust) will further guide our targeting and positions ideas and strategies.
 
@@ -686,7 +686,7 @@ paste0("Ward.D2:  ", round(cor(cophenetic(m3_hc), dmat_needs), digits=2))
 #TODO: mozda tabelu napravit kasnije
 ```
 
-## Segments and discussion
+## Segments and Characteristics
 
 The segment labeling here uses the fisherman metaphor. We are facing four segments of varying sizes, varying needs, and varying purchasing behaviors. This is reflected in the naming convention here; 'Pebble' (22%), 'Small Fish' (46%), 'Big Fish' (22%), and 'Whales' (11%).
 
@@ -707,3 +707,9 @@ However, slightly less than half of their purchases come from us so this segment
 This segment requires most of our attention with regard to retention and future expansion, their referral rates are low so maybe they should be targeted indirectly, which will be discussed in proceeding paragraphs. Also, if we win them over we could submerge them in our product ecosystem, lessening their need for software integration, and cementing them as loyal customers.
 
 ### Small Fish
+
+This is the largest segment of the market at 46%. They are very price sensitive, like Pebble, seeking above average product with a focus on technical assistance. Their purchases are one third of the size of either Whales or Big Fish and they order less frequently, but their overall size partially makes up for it and justifies their consideration.
+
+Around 32% of their purchases is from us, but their TSBs show they spent double the time at our competitors. However, the most revealing part about their TSBs is that overall they spent a low amount of time at both our and competitors booth; 12% and 20% respectively. This suggests that the high-end quality and premium price of our offerings might be a mismatch, but the rest of the market still does not manage to satisfy their needs overall. There is a chance our current hold of about the third of this segment might slowly diminish over long-term if we ignore the market dynamics.
+
+## Targeting and Positioning
